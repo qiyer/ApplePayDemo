@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[PayManager instance] purchase:@"com.qiye.product00001" payType:PayApple witchCallback:^(Boolean isSuccess, NSError *error) {
+    [[PayManager instance] purchase:@"com.qiye.product00001" payType:PayApple withCallback:^(Boolean isSuccess, NSError *error) {
         NSLog(@"do deal");
     }];
 }

@@ -22,7 +22,7 @@
     return self;
 }
 
--(void)purchase:(NSString*) productID witchCallback:(void (^)(Boolean isSuccess, NSError * error))callback {
+-(void)purchase:(NSString*) productID withCallback:(void (^)(Boolean isSuccess, NSError * error))callback {
     self.callBack = callback;
     
     if ([SKPaymentQueue canMakePayments]) {

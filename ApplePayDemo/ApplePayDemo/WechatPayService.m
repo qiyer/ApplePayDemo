@@ -10,7 +10,7 @@
 
 @implementation WechatPayService
 
--(void)purchase:(NSString*) productID witchCallback:(void (^)(Boolean isSuccess, NSError * error))callback {
+-(void)purchase:(NSString*) productID withCallback:(void (^)(Boolean isSuccess, NSError * error))callback {
     
 }
 @end

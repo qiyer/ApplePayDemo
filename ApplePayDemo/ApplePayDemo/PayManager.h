@@ -19,6 +19,6 @@ typedef NS_ENUM(NSInteger, PayType) {
 
 +(instancetype)instance;
 
--(void)purchase:(NSString*) productID payType:(PayType) payType witchCallback:(void (^)(Boolean isSuccess, NSError * error))callback;
+-(void)purchase:(NSString*) productID payType:(PayType) payType withCallback:(void (^)(Boolean isSuccess, NSError * error))callback;
 
 @end

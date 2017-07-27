@@ -5,6 +5,18 @@
 //  Created by Zhi Zhuang on 2017/7/25.
 //  Copyright © 2017年 Zhi Zhuang. All rights reserved.
 //
+//
+//  1.对于项目初期，提升复费率 或是不想和苹果 分成的 可以做个开关（服务器端配置） 是否开启微信／支付宝 ，不过有风险，不抓到的 严重的 会被下架，很伤的
+//
+//  2.丢单，大部分是因为 [[SKPaymentQueue defaultQueue] finishTransaction: transaction] 时机不对 。
+//
+//  3.预防 “通过拦截发假票据的欺骗行为” ，一定要把transaction.transactionReceipt 放到服务器做校验
+//
+//  4.黑信用卡 以及 小额消费即“36技术” 通过 iOS 端上传uuid（虚拟设备号）， 服务器根据 uuid，客户端ip ，账号信用 ，支付币种 ，每日（周／月）交易 等综合 预防。抓到一个立马封号！
+//
+//  5. 外币支付， 通过币种校验，服务器设立币种白名单，只对那些稳定的货币 开放支付
+//
+//  综上：如果你们app 用户量还小， 3-5 你不用考虑了。等你们规模起来了 再去考虑这些。另外，就是 支付log，支付log，支付log，一定要传服务器。 
 
 #import "PayManager.h"
 #import "AlipayService.h"
@@ -62,7 +74,7 @@
     return self;
 }
 
--(void)purchase:(NSString*) productID payType:(PayType) payType witchCallback:(void (^)(Boolean isSuccess ,NSError * error))callback
+-(void)purchase:(NSString*) productID payType:(PayType) payType withCallback:(void (^)(Boolean isSuccess ,NSError * error))callback
 {
     ToServerLog(@"purchase %@",productID);
     
@@ -114,7 +126,7 @@
         
         ToServerLog(@"假设使用App Store购买  %@",productID);
         ToWeak(self,weakSelf);
-        [currentPay purchase:productID witchCallback:^(Boolean isSuccess, NSError *error) {
+        [currentPay purchase:productID withCallback:^(Boolean isSuccess, NSError *error) {
             dispatch_semaphore_signal(weakSelf.semaphore);
             
             ToServerLog(@"购买结果  %@",productID);

@@ -77,7 +77,7 @@
 -(void)purchase:(NSString*) productID payType:(PayType) payType withCallback:(void (^)(Boolean isSuccess ,NSError * error))callback
 {
     ToServerLog(@"purchase %@",productID);
-    
+    //加锁
     dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         self.payBack = callback;
@@ -122,11 +122,14 @@
         //      确认使用余额购买该订单
         //
         //-----------from server-------------
+        //解锁
+        dispatch_semaphore_signal(self.semaphore);
     }else{
         
         ToServerLog(@"假设使用App Store购买  %@",productID);
         ToWeak(self,weakSelf);
         [currentPay purchase:productID withCallback:^(Boolean isSuccess, NSError *error) {
+            //解锁
             dispatch_semaphore_signal(weakSelf.semaphore);
             
             ToServerLog(@"购买结果  %@",productID);

@@ -92,7 +92,7 @@
     ToServerLog(@"creatServerOrder %@",productID);
     //-----------send server-------------
     //
-    //      向自己服务器发送创建订单请求
+    //      向自己服务器发送创建订单请求 (整个订单流程都要uuid传给服务器)
     //
     //-----------from server-------------
     

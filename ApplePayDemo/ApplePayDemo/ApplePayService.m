@@ -47,6 +47,13 @@
     }
     SKProduct *product = [myProduct objectAtIndex:0];
 
+    //-----------send server-------------
+    //
+    //      校验币种
+    //
+    //-----------from server-------------
+    //
+    
     ToServerLog(@"Product start:%@",product.productIdentifier);
     
     SKPayment * payment = [SKPayment paymentWithProduct:myProduct[0]];

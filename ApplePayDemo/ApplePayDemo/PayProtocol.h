@@ -9,7 +9,7 @@
 #ifndef PayProtocol_h
 #define PayProtocol_h
 
-#define ToServerLog(fmt, ...) NSLog((@"[PURCHASE] %s  %d " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define ToServerLog(fmt, ...) NSLog((@"[PURCHASE] %s  %d uuidxxxxx" fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 @protocol PayProtocol <NSObject>
 

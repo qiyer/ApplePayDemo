@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "PayManager.h"
 
 @interface ViewController ()
 
@@ -16,13 +17,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    [[PayManager instance] purchase:@"com.qiye.product00001" payType:PayApple witchCallback:^(Boolean isSuccess, NSError *error) {
+        NSLog(@"do deal");
+    }];
 }
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

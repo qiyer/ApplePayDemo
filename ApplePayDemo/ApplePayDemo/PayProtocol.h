@@ -9,6 +9,8 @@
 #ifndef PayProtocol_h
 #define PayProtocol_h
 
+#define ToServerLog(fmt, ...) NSLog((@"[PURCHASE] %s  %d " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 @protocol PayProtocol <NSObject>
 
 -(void)purchase:(NSString*) productID witchCallback:(void (^)(Boolean isSuccess, NSError * error))callback;

@@ -10,10 +10,9 @@
 #import "AlipayService.h"
 #import "WechatPayService.h"
 #import "ApplePayService.h"
+#import <UIKit/UIKit.h>
 
 #define ToWeak(var, weakVar) __weak __typeof(&*var) weakVar = var
-
-#define ToServerLog(fmt, ...) NSLog((@"[PURCHASE] %s  %d " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 @interface PayManager ()
 
@@ -30,6 +29,19 @@
     id<PayProtocol>       currentPay;
 }
 
++ (void)load
+{
+    __block id observer =
+    [[NSNotificationCenter defaultCenter]
+     addObserverForName:UIApplicationDidFinishLaunchingNotification
+     object:nil
+     queue:nil
+     usingBlock:^(NSNotification *note) {
+         PAY;//初始化 ApplePayService ， addTransactionObserver
+         [[NSNotificationCenter defaultCenter] removeObserver:observer];
+     }];
+}
+
 +(instancetype)instance{
     static PayManager * _instance;
     static dispatch_once_t onceToken;
@@ -44,6 +56,7 @@
 -(instancetype)init{
     if (self = [super init]) {
         self.semaphore = dispatch_semaphore_create(1);
+        currentPay = self.apple;
         NSLog(@"do yours");
     }
     return self;
@@ -115,14 +128,14 @@
 }
 
 -(AlipayService*)    alipay{
-    return  alipay?:[AlipayService new];
+    return  alipay?:[[AlipayService alloc]init];
 }
 
 -(WechatPayService*) wechat{
-    return  wechat?:[WechatPayService new];
+    return  wechat?:[[WechatPayService alloc]init];
 }
 
 -(ApplePayService*)  apple{
-    return  apple?:[ApplePayService new];
+    return  apple?:[[ApplePayService alloc]init];
 }
 @end

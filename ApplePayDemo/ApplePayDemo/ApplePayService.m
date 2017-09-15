@@ -78,12 +78,19 @@
             case SKPaymentTransactionStatePurchasing: // 0
                 break;
             case SKPaymentTransactionStatePurchased:  // 1
-                [self completeTransaction:transaction];
+                //订阅特殊处理
+                if(transaction.originalTransaction){
+                    //如果是自动续费的订单originalTransaction会有内容
+                    [self completeTransaction:transaction];
+                }else{
+                    //普通购买，以及 第一次购买 自动订阅
+                    [self completeTransaction:transaction];
+                }
                 break;
             case SKPaymentTransactionStateFailed:     // 2
                 [self failedTransaction:transaction];
                 break;
-            case SKPaymentTransactionStateRestored:   // 3
+            case SKPaymentTransactionStateRestored:   // 3  当某些订阅需求需要恢复功能时候，调用 restoreCompletedTransactions 方法 触发；
                 [self restoreTransaction:transaction];
                 break;
             default:
@@ -174,6 +181,7 @@
 
 - (void)dealloc
 {
+    //要移除侦听，否则在Unity 3D 游戏会出现Crash
     [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
 }
 
